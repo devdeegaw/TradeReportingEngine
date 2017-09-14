@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.reducing;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -62,5 +63,29 @@ public class TradeCalculator {
 				});
 		return entityRankList;
 
+	}
+	
+	/**
+	 * calculate settlement for 
+	 * @param tradeInstructions
+	 */
+	public void caluclateSettlementDate(List<TradeInstruction> tradeInstructions) {
+		tradeInstructions.forEach(TradeCalculator::setSettlementDate);
+	}
+	
+	private static void setSettlementDate(TradeInstruction tradeInsructions) {
+		WorkingDay workingDay = getWorkingDay(tradeInsructions.getCurrency());
+		LocalDate settlementDate = workingDay.findWorkingDay(TradeUtility.convertLocaleDate(tradeInsructions.getSettlementDate()));
+		tradeInsructions.setSettlementDate(TradeUtility.convertDateToString(settlementDate));
+	}
+	
+	private static WorkingDay getWorkingDay(String currency) {
+		if ("AED".equalsIgnoreCase(currency)
+				|| "SAR".equalsIgnoreCase(currency)) {
+			return  new AED_SAR_WorkingDayImpl();
+		} else {
+			return  new WorkingDayImpl();
+		}
+		
 	}
 }
