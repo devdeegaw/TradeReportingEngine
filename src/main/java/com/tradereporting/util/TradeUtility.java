@@ -1,6 +1,7 @@
 package com.tradereporting.util;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.tradereporting.model.TradeInstruction;
@@ -23,5 +24,25 @@ public class TradeUtility {
 		
 	}
 	
+	/**
+	 * Convert string to locale date
+	 * @param date
+	 * @return 
+	 */
+	public static LocalDate convertLocaleDate(String date) {
+		 LocalDate localDate = LocalDate.parse(date, formatter);
+		 return localDate;
+
+	}
+	
+	/**
+	 * Convert locale date to string
+	 * @param date
+	 * @return date in string format
+	 */
+	public static String convertDateToString(LocalDate date) {
+		return formatter.format(date);
+
+	}
 
 }
