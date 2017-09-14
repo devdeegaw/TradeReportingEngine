@@ -6,18 +6,19 @@ import static junit.framework.TestCase.assertTrue;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tradereporting.model.EntityRank;
 import com.tradereporting.model.TradeInstruction;
 
 
-public class DailyTradeAmountTest {
+public class DailyEntityRankingTest {
 	List<TradeInstruction> tradeInstructions = new ArrayList<>();
 	TradeCalculator tradeCalculator = new TradeCalculator();
 	@Before
@@ -28,8 +29,8 @@ public class DailyTradeAmountTest {
 		tradeInstruction1.setTradeAmount(BigDecimal.valueOf(500.00));
 		
 		TradeInstruction tradeInstruction2 = new TradeInstruction("A2", "S", BigDecimal.valueOf(1), "USD",
-				"14-Sept-2016", "16-Sep-2016", 5, BigDecimal.valueOf(100));
-		tradeInstruction2.setTradeAmount(BigDecimal.valueOf(500.00));
+				"14-Sept-2016", "16-Sep-2016", 4, BigDecimal.valueOf(100));
+		tradeInstruction2.setTradeAmount(BigDecimal.valueOf(400.00));
 		
 		TradeInstruction tradeInstruction3 = new TradeInstruction("A3", "B", BigDecimal.valueOf(1.5), "GBP",
 				"14-Sept-2016", "16-Sep-2016", 3, BigDecimal.valueOf(100));
@@ -39,25 +40,26 @@ public class DailyTradeAmountTest {
 		tradeInstructions.add(tradeInstruction2);
 		tradeInstructions.add(tradeInstruction3);
 	}
-
-	@Test
-	public void testDailyOutgoingAmount() throws Exception {
-		Predicate<TradeInstruction> buyPredicate = (TradeInstruction p) -> p.getInstructionFlag().equalsIgnoreCase("B");
-		
-		final Map<String, BigDecimal> dailyOutgoingAmount = tradeCalculator.calculateDailyTradeAmount(tradeInstructions,
-				buyPredicate);
-		assertEquals(1, dailyOutgoingAmount.size());
-		assertTrue(Objects.equals(dailyOutgoingAmount.get("16-Sep-2016"),BigDecimal.valueOf(950.00)));
-	}
 	
 	@Test
-	public void testDailyIncomingAmount() throws Exception {
-		Predicate<TradeInstruction> buyPredicate = (TradeInstruction p) -> p.getInstructionFlag().equalsIgnoreCase("S");
-		
-		final Map<String, BigDecimal> dailyIncomingAmount = tradeCalculator.calculateDailyTradeAmount(tradeInstructions,
-				buyPredicate);
-		assertEquals(1, dailyIncomingAmount.size());
-		assertTrue(Objects.equals(dailyIncomingAmount.get("16-Sep-2016"),BigDecimal.valueOf(500.00)));
-	}
+    public void testDailyOutGoingRanking() throws Exception {
+		Predicate<TradeInstruction> buyPredicate = (TradeInstruction p) -> p.getInstructionFlag().equalsIgnoreCase("B");
+        final List<EntityRank> dailyoutGoingRanking = tradeCalculator.calculateRanking(tradeInstructions, buyPredicate);
+
+        assertEquals(2, dailyoutGoingRanking.size());
+        assertTrue(dailyoutGoingRanking.contains(new EntityRank(1, "A1", "16-Sep-2016")));
+        assertTrue(dailyoutGoingRanking.contains(new EntityRank(2, "A3", "16-Sep-2016")));
+
+    }
+	
+	@Test
+    public void testDailyIncomingRanking() throws Exception {
+		Predicate<TradeInstruction> sellPredicate = (TradeInstruction p) -> p.getInstructionFlag().equalsIgnoreCase("S");
+        final List<EntityRank> dailyIncomingRanking = tradeCalculator.calculateRanking(tradeInstructions, sellPredicate);
+
+        assertEquals(1, dailyIncomingRanking.size());
+        assertTrue(dailyIncomingRanking.contains(new EntityRank(1, "A2", "16-Sep-2016")));
+
+    }
 
 }

@@ -4,11 +4,15 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.reducing;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import com.tradereporting.model.EntityRank;
 import com.tradereporting.model.TradeInstruction;
 import com.tradereporting.util.TradeUtility;
 /**
@@ -34,6 +38,29 @@ public class TradeCalculator {
 		Stream<TradeInstruction> instStream = tradeInstructions.stream();
 		return instStream.filter(predicate).collect(groupingBy(TradeInstruction::getSettlementDate,
 				mapping(TradeInstruction::getTradeAmount, reducing(BigDecimal.ZERO, BigDecimal::add))));
+
+	}
+	
+	/**
+	 * Calculate daily incoming and outgoing trade amount 
+	 * @param tradeInstructions
+	 */
+	public List<EntityRank> calculateRanking(List<TradeInstruction> tradeInstructions,
+			Predicate<TradeInstruction> predicate) {
+		List<EntityRank> entityRankList = new ArrayList<>();
+		Comparator<TradeInstruction> compareAmount = (TradeInstruction tr1, TradeInstruction tr2) -> Integer
+				.compare(tr2.getTradeAmount().intValue(), tr1.getTradeAmount().intValue());
+
+		tradeInstructions.stream().filter(predicate).collect(groupingBy(TradeInstruction::getSettlementDate))
+				.forEach((settlementDate, instructions) -> {
+					int rank =1;
+					Collections.sort(instructions, compareAmount);
+					for (TradeInstruction instruction : instructions) {
+						entityRankList
+								.add(new EntityRank(rank++, instruction.getEntity(), settlementDate));
+					}
+				});
+		return entityRankList;
 
 	}
 }
