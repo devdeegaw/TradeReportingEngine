@@ -13,11 +13,11 @@ public class WorkingDayImpl extends WorkingDay{
 	 */
 	public boolean isNonWorkingDay(LocalDate date) {
 		final DayOfWeek day = date.getDayOfWeek();
+		boolean isWeekEnd = false;
 		if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
-			return true;
-		}else {
-			return false;
+			isWeekEnd = true;
 		}
+		return isWeekEnd;
 		
 	}
 

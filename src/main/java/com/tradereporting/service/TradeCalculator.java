@@ -26,7 +26,7 @@ public class TradeCalculator {
 	 * @param tradeInstructions
 	 */
 	public void calculateUSDAmountOfTrade(List<TradeInstruction> tradeInstructions) {
-		tradeInstructions.forEach(TradeUtility::CalculateTradeAmountInUSD);
+		tradeInstructions.forEach(TradeUtility::calculateTradeAmountInUSD);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class TradeCalculator {
 	private static WorkingDay getWorkingDay(String currency) {
 		if ("AED".equalsIgnoreCase(currency)
 				|| "SAR".equalsIgnoreCase(currency)) {
-			return  new AED_SAR_WorkingDayImpl();
+			return  new AEDSARWorkingDayImpl();
 		} else {
 			return  new WorkingDayImpl();
 		}

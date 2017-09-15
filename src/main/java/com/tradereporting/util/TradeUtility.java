@@ -18,7 +18,7 @@ public class TradeUtility {
 	 * @param instruction
 	 * 
 	 */
-	public static void CalculateTradeAmountInUSD(TradeInstruction instruction) {
+	public static void calculateTradeAmountInUSD(TradeInstruction instruction) {
 		instruction.setTradeAmount(instruction.getPricePerUnit().multiply(BigDecimal.valueOf(instruction.getUnit())
 				 .multiply(instruction.getAgreedFix())));
 		
@@ -30,8 +30,7 @@ public class TradeUtility {
 	 * @return 
 	 */
 	public static LocalDate convertLocaleDate(String date) {
-		 LocalDate localDate = LocalDate.parse(date, formatter);
-		 return localDate;
+		return LocalDate.parse(date, formatter);
 
 	}
 	

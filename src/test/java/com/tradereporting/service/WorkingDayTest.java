@@ -28,7 +28,7 @@ public class WorkingDayTest {
 	
 	@Test
 	public void testAEDWorkingDay_WeekEnd() {
-		workingDay = new AED_SAR_WorkingDayImpl();
+		workingDay = new AEDSARWorkingDayImpl();
 		LocalDate date = workingDay.findWorkingDay(LocalDate.of(2017, 9, 15));
 		Assert.assertTrue(date.equals(LocalDate.of(2017, 9, 17)));
 		
@@ -36,7 +36,7 @@ public class WorkingDayTest {
 	
 	@Test
 	public void testAEDWorkingDay_WeekDay() {
-		workingDay = new AED_SAR_WorkingDayImpl();
+		workingDay = new AEDSARWorkingDayImpl();
 		LocalDate date = workingDay.findWorkingDay(LocalDate.of(2017, 9, 14));
 		Assert.assertTrue(date.equals(LocalDate.of(2017, 9, 14)));
 		

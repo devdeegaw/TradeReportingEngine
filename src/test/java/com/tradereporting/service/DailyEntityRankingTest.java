@@ -4,11 +4,8 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import org.junit.Before;

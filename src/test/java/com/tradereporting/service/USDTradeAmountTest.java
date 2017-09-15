@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.tradereporting.model.TradeInstruction;
 import com.tradereporting.util.TradeUtility;
 
+
 public class USDTradeAmountTest {
 
 	TradeInstruction tradeInstruction;
@@ -23,7 +24,7 @@ public class USDTradeAmountTest {
 	
 	@Test
 	public void testTradeAmountInUSD() {
-		TradeUtility.CalculateTradeAmountInUSD(tradeInstruction);
+		TradeUtility.calculateTradeAmountInUSD(tradeInstruction);
 		assertTrue(Objects.equals(tradeInstruction.getTradeAmount(), BigDecimal.valueOf(500.00)));
 	}
 }

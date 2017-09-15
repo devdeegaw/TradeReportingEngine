@@ -12,11 +12,11 @@ public abstract class WorkingDay {
 	 * @return LocalDate
 	 */
 	public LocalDate findWorkingDay(LocalDate date) {
-
-		while (isNonWorkingDay(date)) {
-			date = date.plusDays(1);
+		LocalDate workingDay = date;
+		while (isNonWorkingDay(workingDay)) {
+			workingDay = workingDay.plusDays(1);
 		}
-		return date;
+		return workingDay;
 	}
 	
 

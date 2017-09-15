@@ -24,25 +24,26 @@ public class ReportGenerator {
 		StringBuilder sb = new StringBuilder();
 		tradeCalculator.calculateUSDAmountOfTrade(tradeInstructions);
 		tradeCalculator.caluclateSettlementDate(tradeInstructions);
+		String sperator = "------------------------------";
 		
 		Predicate<TradeInstruction> buyPredicate = (TradeInstruction p) -> p.getInstructionFlag().equalsIgnoreCase("B");
 		sb.append("Daily Outgoing Amount :");
 		Map<String, BigDecimal> incomingAmount = tradeCalculator.calculateDailyTradeAmount(tradeInstructions,buyPredicate);
 		sb = printAmountReport(incomingAmount,sb);
-		sb.append("------------------------------");
+		sb.append(sperator);
 		sb.append("\n");
 		
 		sb.append("Daily Incoming Amount :");
 		Predicate<TradeInstruction> sellPredicate = (TradeInstruction p) -> p.getInstructionFlag().equalsIgnoreCase("S");
 		Map<String, BigDecimal> outgoingAmount = tradeCalculator.calculateDailyTradeAmount(tradeInstructions,sellPredicate);
 		sb = printAmountReport(outgoingAmount,sb);
-		sb.append("------------------------------");
+		sb.append(sperator);
 		sb.append("\n");
 		
 		sb.append("Daily Outgoing Entity Ranking :");
 		List<EntityRank> entityBuyerRanks = tradeCalculator.calculateRanking(tradeInstructions, buyPredicate);
 		sb = printEntityRanking(entityBuyerRanks,sb);
-		sb.append("------------------------------");
+		sb.append(sperator);
 		sb.append("\n");
 		
 		sb.append("Daily Incoming Entity Ranking :");
@@ -55,8 +56,8 @@ public class ReportGenerator {
 	
 	private StringBuilder printAmountReport(Map<String, BigDecimal> amountReport, StringBuilder sb) {
 		sb.append("\n");
-		amountReport.forEach((Date, Amount) -> {
-			sb.append("Date : " + Date + " Amount : " + Amount);
+		amountReport.forEach((date, amount) -> {
+			sb.append("Date : " + date + " Amount : " + amount);
 			sb.append("\n");
 		});
 
