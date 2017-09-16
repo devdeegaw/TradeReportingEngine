@@ -12,6 +12,10 @@ public class TradeUtility {
 	
 	static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-MMM-yyyy");
 	
+	private TradeUtility() {
+		
+	}
+	
 	/**
 	 * This method calculate and set trade amount 
 	 * USD amount of a trade = Price per unit * Units * Agreed Fx

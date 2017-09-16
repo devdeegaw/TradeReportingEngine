@@ -3,7 +3,7 @@ package com.tradereporting.service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class AEDSARWorkingDayImpl extends WorkingDay {
+public class AEDSARWorkingDayImpl implements WorkingDay {
 
 	/**
 	 * This method contain logic to check non working 

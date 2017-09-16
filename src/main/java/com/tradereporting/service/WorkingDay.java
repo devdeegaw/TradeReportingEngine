@@ -2,7 +2,7 @@ package com.tradereporting.service;
 
 import java.time.LocalDate;
 
-public abstract class WorkingDay {
+public interface WorkingDay {
 	
 	abstract boolean isNonWorkingDay(LocalDate date);
 	
@@ -11,7 +11,7 @@ public abstract class WorkingDay {
 	 * @param date
 	 * @return LocalDate
 	 */
-	public LocalDate findWorkingDay(LocalDate date) {
+	public default LocalDate findWorkingDay(LocalDate date) {
 		LocalDate workingDay = date;
 		while (isNonWorkingDay(workingDay)) {
 			workingDay = workingDay.plusDays(1);
